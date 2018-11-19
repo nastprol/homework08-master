@@ -22,9 +22,12 @@ object PeopleApp extends PeopleModule {
     storePerson(clone).map(_ => clone)
   }
 
-  def main(args: Array[String]): Unit = print((for {
-    _ <- setup()
-    old <- getOldPerson()
-    clone <- clonePerson(old)}
-    yield clone).execute(uri))
+  def main(args: Array[String]): Unit = {
+    val res = for {
+      _ <- setup()
+      old <- getOldPerson()
+      clone <- clonePerson(old)
+    } yield clone
+    print(res.execute(uri))
+  }
 }
